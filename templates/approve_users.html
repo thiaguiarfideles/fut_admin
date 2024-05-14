@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprovação de usuarios</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 660px;
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-8">
+        <h2>Usuarios Pendentes de Aprovação</h2>
+        <form method="post">
+            {% for user in users %}
+            <div class="card my-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.full_name }}</h5>
+                    <p class="card-text">Nome Usuario: {{ user.username }}</p>
+                    <p class="card-text">Matricula: {{ user.registration_number }}</p>
+                    <p class="card-text">Data de Nascimento: {{ user.date_of_birth }}</p>
+                    <p class="card-text">Status de Aprovação: 
+                        <input type="radio" name="{{ user.id }}" value="approve" id="approve{{ user.id }}">
+                        <label for="approve{{ user.id }}">Aprovado</label>
+                        <input type="radio" name="{{ user.id }}" value="reject" id="reject{{ user.id }}">
+                        <label for="reject{{ user.id }}">Rejeitado</label>
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

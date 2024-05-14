@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar</title>
+    <!-- Adicionar Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Adicionar seu arquivo de estilo CSS personalizado, se necessário -->
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('index') }}">HOME</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="mt-5">Editar Jogador</h1>
+        <form action="/edit_player/{{ player.id }}" method="post" class="mt-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome do Jogador:</label>
+                <input type="text" id="name" name="name" class="form-control" value="{{ player.name }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="age" class="form-label">Idade:</label>
+                <input type="number" id="age" name="age" class="form-control" value="{{ player.age }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="preferencia_pe" class="form-label">Preferência de Pé:</label>
+                <select id="preferencia_pe" name="preferencia_pe" class="form-select" required>
+                    <option value="esquerdo" {% if player.score and player.score.preferencia_pe == 'esquerdo' %} selected {% endif %}>Esquerdo</option>
+                    <option value="direito" {% if player.score and player.score.preferencia_pe == 'direito' %} selected {% endif %}>Direito</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="posicao" class="form-label">Posição:</label>
+                <select id="posicao" name="posicao" class="form-select" required>
+                    <option value="goleiro" {% if player.score and player.score.posicao == 'goleiro' %} selected {% endif %}>Goleiro</option>
+                    <option value="zagueiro" {% if player.score and player.score.posicao == 'zagueiro' %} selected {% endif %}>Zagueiro</option>
+                    <option value="lateral" {% if player.score and player.score.posicao == 'lateral' %} selected {% endif %}>Lateral</option>
+                    <option value="meio campo" {% if player.score and player.score.posicao == 'meio campo' %} selected {% endif %}>Meio Campo</option>
+                    <option value="atacante" {% if player.score and player.score.posicao == 'atacante' %} selected {% endif %}>Atacante</option>
+                    <option value="ponta" {% if player.score and player.score.posicao == 'ponta' %} selected {% endif %}>Ponta</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="nota" class="form-label">Nota (0-10):</label>
+                <input type="number" id="nota" name="nota" class="form-control" min="0" max="10" value="{{ player.score.nota if player.score else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-check-label">Status do Jogador:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="presence_yes" name="status" value="yes" {% if player.status == 'yes' %} checked {% endif %}>
+                    <label class="form-check-label" for="presence_yes">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="presence_no" name="status" value="no" {% if player.status == 'no' %} checked {% endif %}>
+                    <label class="form-check-label" for="presence_no">Não</label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-check-label">Pagamento Diária:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="payment_yes" name="payment" value="yes" {% if player.payment == 'yes' %} checked {% endif %}>
+                    <label class="form-check-label" for="payment_yes">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="payment_no" name="payment" value="no" {% if player.payment == 'no' %} checked {% endif %}>
+                    <label class="form-check-label" for="payment_no">Não</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Atualizar</button>
+        </form>
+        <div class="mt-4">
+            <form action="{{ url_for('delete_player', player_id=player.id) }}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger">Deletar</button>
+            </form>
+        </div>
+    </div>
+    
+    
+    <!-- Adicionar Bootstrap JavaScript, se necessário -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

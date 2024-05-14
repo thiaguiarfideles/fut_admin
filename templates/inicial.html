@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Partidas de Futebol</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 880px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        p {
+            color: #666;
+            text-align: center;
+        }
+        .btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 25px;
+            text-align: center;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .container {
+            width: 100%;
+            max-width: 640px; /* Largura máxima do contêiner, ajuste conforme necessário */
+            margin: auto; /* Centraliza o contêiner */
+        }
+        
+        .responsive-iframe {
+            position: relative;
+            overflow: hidden;
+            padding-top: 76.25%; /* Aspect ratio 16:9 */
+            height: 0;
+        }
+        
+        .responsive-iframe iframe {
+            position: absolute;
+            top: 80;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+            <iframe width="640" height="360" src="https://www.youtube.com/embed/rcrGa5LNZJM" title="FutAdmin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+    
+    <a href="{{ url_for('index') }}" class="btn btn-primary" style="display: block; margin-top: 100px; text-align: center;">Gerenciar Partidas</a>
+    
+</body>
+</html>

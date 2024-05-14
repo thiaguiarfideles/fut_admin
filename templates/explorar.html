@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário de Partidas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/web/assets/mobirise-icons2/mobirise2.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/bootstrap/css/bootstrap.min.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/bootstrap/css/bootstrap-grid.min.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/bootstrap/css/bootstrap-reboot.min.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/dropdown/css/style.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/socicon/css/styles.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/theme/css/style.css?rnd=1713188117403">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Brygada+1918:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Brygada+1918:wght@400;700&display=swap&display=swap"></noscript>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/css/mbr-additional.css?rnd=1713188117403" type="text/css">
+    <style>
+        .container {
+            margin-top: 100px;
+          }
+          
+          nav .container {
+            margin-top: 0;
+          }
+ 
+        /* Estilos CSS personalizados */
+        .list-group-item.active {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <section data-bs-version="5.1" class="menu menu2 cid-ua1kiTEuEj" once="menu" id="menu-5-ua1kiTEuEj">
+	
+
+        <nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
+            <div class="container">
+                <div class="navbar-brand">
+                    <span class="navbar-logo">
+                        <a href="/">
+                            <img src="media/logoligaadmin1.jfif" alt="LigaAdmin" style="height: 4.3rem;">
+                        </a>
+                    </span>
+                    <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-4" href="/">LigaAdmin</a></span>
+                </div>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<div class="hamburger">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
+					<li class="nav-item">
+						<a class="nav-link link text-black display-12" href="/calendario">Calendario</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/cadastrar_grupo">Criar grupo</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/registro">Jogador Partida</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/listar_jogadores">Jogadores cadastrados</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/teams">Formação dos Times</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/ranking">Rank Jogador</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/add_gols">Add Gols</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/logout">Sair</a>
+					</li>
+				</ul>
+				
+				<div class="navbar-buttons mbr-section-btn">
+					<a class="btn btn-primary display-4" href="/explorar">Explorar</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+</section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Agenda de Partidas</h5>
+                        <p class="card-text">Criação de Calendário: Permite criar o calendário de jogos da liga, especificando as datas, horários e locais das partidas. Agendamento de Partidas: Permite agendar partidas entre as equipes participantes, atribuindo os times envolvidos, data, horário e local do jogo.</p>
+                        <a href="{{ url_for('calendario') }}" class="btn btn-primary">Ver Agenda</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Repita este bloco para cada rota -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cadastro de Grupo</h5>
+                        <p class="card-text">Vincular usuarios e jogadores a um grupo, permite criar um vinculo onde cada jogadores terá acesso somente aos determinados dados do grupo.</p>
+                        <a href="{{ url_for('cadastrar_grupo') }}" class="btn btn-primary">Ver Grupos</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Gerenciamento de Equipes</h5>
+                        <p class="card-text">Cadastro de Equipes: Permite aos administradores cadastrar novas equipes participantes da liga, fornecendo informações como nome, cidade, cores do uniforme, entre outros. Edição de Equipes: Permite editar informações das equipes cadastradas, como alterar o nome, atualizar o escudo, adicionar/remover jogadores, etc..</p>
+                        <a href="{{ url_for('register_user') }}" class="btn btn-primary">Cadastrar Jogadores</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Listagem de Jogadores</h5>
+                        <p class="card-text">Todos os jogadores registrados são listados na página de listagem de jogadores, nesta tela é possivel selecionar todos os jogadores e os selecionar para confirmação e adiciona-lo a uma partida de um determinado dia..</p>
+                        <a href="{{ url_for('listar_jogadores') }}" class="btn btn-primary">Ver Listagem</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Ranking de jogadores</h5>
+                        <p class="card-text">É responsável por fornecer aos usuários uma visão da classificação dos jogadores da liga, permitindo que eles vejam quem está no topo da lista e como eles se comparam aos outros jogadores em termos de desempenho, onde os jogadores são exibidos em ordem decrescente ou crescente de acordo com a pontuação ou critério utilizado para classificação...</p>
+                        <a href="{{ url_for('ranking') }}" class="btn btn-primary">Ver Ranking</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Jogadores Confirmados</h5>
+                        <p class="card-text">Tem como objetivo mostrar aos usuários quais jogadores confirmaram sua participação em partidas específicas. Essa rota é útil para os administradores da liga ou para os próprios jogadores, pois fornece uma maneira rápida e conveniente de verificar quem está disponível para jogar em cada partida agendada. Isso pode ajudar a garantir que as equipes estejam completas e prontas para competir em cada jogo.</p>
+                        <a href="{{ url_for('jogadores_confirmados') }}" class="btn btn-primary">Ver Confirmados</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Organização de partidas de futebol</h5>
+                        <p class="card-text">Escolha dos times:
+                             Essa rota e função são importantes para organizar os jogadores em times de maneira justa e eficiente para as partidas de futebol <br />
+                             Embaralhar a lista de jogadores: A lista de jogadores é embaralhada aleatoriamente para garantir que os times sejam balanceados.<br />
+                             Inicializar os times: Uma lista de listas vazias é criada para representar os times. O número de listas na lista é igual ao número total de jogadores dividido pelo tamanho do time.<br />
+                             Separar os goleiros: Os jogadores que têm "Goleiro 2" em seus nomes são separados como goleiros. Os outros jogadores são armazenados em uma lista separada.<br />
+                             Distribuir os goleiros: Os goleiros são distribuídos nos dois primeiros times.<br />
+                             Distribuir os outros jogadores: Os outros jogadores são distribuídos nos times restantes. Para cada time, a função verifica primeiro se o time já tem três jogadores com menos de 25 anos. <br />
+                             Se não tiver, o jogador é adicionado ao time. Se o time já tiver três jogadores com menos de 25 anos, o jogador é adicionado ao time somente se o time não estiver cheio.<br />
+                             Criar uma lista numerada de times: Uma lista de tuplas é criada, onde cada tupla contém o número do time e a lista de jogadores naquele time.<br />
+                            </p>
+                        <a href="{{ url_for('teams') }}" class="btn btn-primary">Ver Partidas e Times</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Adicionar Gols</h5>
+                        <p class="card-text">Os gols marcados pelos jogadores em partidas específicas podem ser registrados..</p>
+                        <a href="{{ url_for('add_gols') }}" class="btn btn-primary">Ver Artilheiros</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Pendencia de aprovação</h5>
+                        <p class="card-text">Novos usuarios tem 30 dias gratis de uso na ferramenta, após este periodo é necessario realizar o pagamento para dar continuidade no uso da ferramenta...</p>
+                        <a href="{{ url_for('pendente_aprovacao') }}" class="btn btn-primary">Ver Pendências</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Pagamento</h5>
+                        <p class="card-text">Realize o pagamento via pix para ter acesso as funcionalidades do sistema...</p>
+                        <a href="{{ url_for('pagamento') }}" class="btn btn-primary">PAGAMENTO</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <script src="static/assets/web/assets/jquery/jquery.min.js"></script>
+    <script src="static/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="static/assets/smoothscroll/smooth-scroll.js"></script>
+    <script src="static/assets/ytplayer/index.js"></script>
+    <script src="static/assets/dropdown/js/navbar-dropdown.js"></script>
+    <script src="static/assets/mbr-switch-arrow/mbr-switch-arrow.js"></script>
+    <script src="static/assets/masonry/masonry.pkgd.min.js"></script>
+    <script src="static/assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="static/assets/theme/js/script.js"></script>
+    <script src="static/assets/formoid/formoid.min.js"></script>
+
+</body>
+</html>

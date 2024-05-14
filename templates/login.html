@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro LigaAdmin</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 450px;
+            min-height: 450px;
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;        }
+            transition: all 200ms;
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 1 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: 3px solid #ccc;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    
+        .login-container {
+            max-width: 380px;
+            min-height: 380px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 3px solid #ccc;
+            border-radius: 5px;
+            background-color: #blue;
+        }
+        .login-form {
+            margin-bottom: 15px;
+        }
+        .btn-login {
+            width: 100%;
+            background-color: #007bff;
+            color: #e9fbf3;
+            border: 3px solid #ccc; /* Aqui definimos a espessura, o estilo e a cor da borda */
+        }
+    </style>
+</head>
+<body>
+            <div class="container">
+                <div class="login-container">
+                    <h2 class="mb-4" style="color: #e9fbf3;">Login LigaAdmin</h2>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <form class="login-form" method="post" action="/login">
+                        {{ form.csrf_token }}  {# Adicionar o campo do token CSRF #}
+                        <div class="form-group">
+                            <label for="username" style="color: #e9fbf3;">Usuario:</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" style="color: #e9fbf3;">Senha:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-login">Login</button>
+                        <a href="{{ url_for('register_user') }}" class="btn btn-login">Registre-se</a>
+                        <p>Esqueceu a senha? <a href="{{ url_for('reset_password') }}" class="btn btn-login">Clique aqui</a> para redefinir.</a></p>
+
+                    </form>
+                </div>
+            </div>
+
+    <!-- Add Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

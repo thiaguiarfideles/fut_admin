@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Equipes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/web/assets/mobirise-icons2/mobirise2.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/bootstrap/css/bootstrap.min.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/bootstrap/css/bootstrap-grid.min.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/bootstrap/css/bootstrap-reboot.min.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/dropdown/css/style.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/socicon/css/styles.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/theme/css/style.css?rnd=1713188117403">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Brygada+1918:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Brygada+1918:wght@400;700&display=swap&display=swap"></noscript>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/css/mbr-additional.css?rnd=1713188117403" type="text/css">
+    <style>
+        .container {
+            margin-top: 100px;
+          }
+          
+          nav .container {
+            margin-top: 0;
+          }
+ 
+        /* Estilos CSS personalizados */
+        .list-group-item.active {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+        
+    </style>
+</head>
+<body>
+    <section data-bs-version="5.1" class="menu menu2 cid-ua1kiTEuEj" once="menu" id="menu-5-ua1kiTEuEj">
+	
+
+        <nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
+            <div class="container">
+                <div class="navbar-brand">
+                    <span class="navbar-logo">
+                        <a href="/">
+                            <img src="media/logoligaadmin1.jfif" alt="LigaAdmin" style="height: 4.3rem;">
+                        </a>
+                    </span>
+                    <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-4" href="/">LigaAdmin</a></span>
+                </div>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<div class="hamburger">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
+					<li class="nav-item">
+						<a class="nav-link link text-black display-12" href="/calendario">Calendario</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/cadastrar_grupo">Criar grupo</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/registro">Jogador Partida</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/listar_jogadores">Jogadores cadastrados</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/teams">Formação dos Times</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/ranking">Rank Jogador</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/add_gols">Add Gols</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-10" href="/logout">Sair</a>
+					</li>
+				</ul>
+				
+				<div class="navbar-buttons mbr-section-btn">
+					<a class="btn btn-primary display-4" href="/explorar">Explorar</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+</section>
+
+    <div class="container">
+        <div class="row">  
+            
+    
+    <div class="container">
+        <div class="row">
+            <form action="{{ url_for('generate_teams') }}" method="post">
+                <h2>Selecionar número de jogadores e tamanho dos times:</h2>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="total_players" id="14_players" value="14" checked>
+                    <label class="form-check-label" for="14_players">14 Jogadores</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="total_players" id="24_players" value="24">
+                    <label class="form-check-label" for="24_players">24 Jogadores</label>
+                </div>
+                <h2>Tamanho dos Times:</h2>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="team_size" id="5_players" value="5" checked>
+                    <label class="form-check-label" for="5_players">Times de 5 Jogadores</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="team_size" id="6_players" value="6">
+                    <label class="form-check-label" for="6_players">Times de 6 Jogadores</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="team_size" id="7_players" value="7">
+                    <label class="form-check-label" for="7_players">Times de 7 Jogadores</label>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Selecionar Jogadores e Gerar Times</button>
+            </form>
+        </div>
+
+       <!-- Lista de Jogadores Confirmados -->
+
+<!-- Lista de Jogadores Confirmados -->
+
+<!-- Times Selecionados -->
+<h1 class="mt-5 mb-4">Times Selecionados</h1>
+<div class="container">
+<div class="row">
+    {% for team_number, team in teams %}
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Time {{ team_number }}</h2>
+                <ul class="list-group list-group-flush">
+                    {% for player in team %}
+                        {% set color = 'black' %}
+                        {% if player.score %}
+                            {% for score in player.score %}
+                                {% if score.nota > 8 %}
+                                    {% set color = 'blue' %}
+                                {% elif score.nota >= 5 and score.nota <= 7 %}
+                                    {% set color = 'orange' %}
+                                {% else %}
+                                    {% set color = 'red' %}
+                                {% endif %}
+                                <!-- Aqui você pode usar a variável 'color' para definir a cor do elemento -->
+                                <li style="color: {{ color }};">{{ player.name }} - Nota: {{ score.nota }}
+                                    <!-- Adiciona o hiperlink para a rota de remover jogador -->
+                                    <a href="{{ url_for('remover_jogador', player_id=player.id) }}" class="btn btn-danger btn-sm">Remover</a>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li style="color: {{ color }};">{{ player.name }} - Nota: Sem nota</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+
+
+        <div class="row">
+            <form action="/generate_teams" method="post">
+                <button type="submit" class="btn btn-primary">Refazer Escolha dos Times</button>
+            </form>
+        </div>
+    </div>
+
+                  
+         
+        </div>
+    </div>
+
+    <script>
+        // Script JavaScript para realçar o primeiro item da lista
+        document.querySelector('.list-group-item').classList.add('active');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    
+    <script src="static/assets/web/assets/jquery/jquery.min.js"></script>
+    <script src="static/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="static/assets/smoothscroll/smooth-scroll.js"></script>
+    <script src="static/assets/ytplayer/index.js"></script>
+    <script src="static/assets/dropdown/js/navbar-dropdown.js"></script>
+    <script src="static/assets/mbr-switch-arrow/mbr-switch-arrow.js"></script>
+    <script src="static/assets/masonry/masonry.pkgd.min.js"></script>
+    <script src="static/assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="static/assets/theme/js/script.js"></script>
+    <script src="static/assets/formoid/formoid.min.js"></script>
+
+</body>
+</html>

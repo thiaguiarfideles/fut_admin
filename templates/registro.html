@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD Jogador Partidas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/web/assets/mobirise-icons2/mobirise2.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/bootstrap/css/bootstrap.min.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/bootstrap/css/bootstrap-grid.min.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/bootstrap/css/bootstrap-reboot.min.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/dropdown/css/style.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/socicon/css/styles.css?rnd=1713188117403">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/theme/css/style.css?rnd=1713188117403">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Brygada+1918:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Brygada+1918:wght@400;700&display=swap&display=swap"></noscript>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/391006/assets/css/mbr-additional.css?rnd=1713188117403" type="text/css">
+    <style>
+        .container {
+            margin-top: 100px;
+          }
+          
+          nav .container {
+            margin-top: 0;
+          }
+ 
+        /* Estilos CSS personalizados */
+        .list-group-item.active {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+        
+    </style>
+</head>
+<body>
+    <section data-bs-version="5.1" class="menu menu2 cid-ua1kiTEuEj" once="menu" id="menu-5-ua1kiTEuEj">
+	
+
+        <nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
+            <div class="container">
+                <div class="navbar-brand">
+                    <span class="navbar-logo">
+                        <a href="/">
+                            <img src="media/logoligaadmin1.jfif" alt="LigaAdmin" style="height: 4.3rem;">
+                        </a>
+                    </span>
+                    <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-4" href="/">LigaAdmin</a></span>
+                </div>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<div class="hamburger">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
+					<li class="nav-item">
+						<a class="nav-link link text-black display-12" href="/calendario">Agenda de Partidas</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-12" href="/cadastrar_grupo">Criar grupo</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-12" href="/registro">Jogador Partida</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link link text-black display-12" href="/listar_jogadores">Jogadores cadastrados</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-12" href="/select_date">Formação dos Times</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link link text-black display-12" href="/logout">Sair</a>
+					</li>
+				</ul>
+				
+				<div class="navbar-buttons mbr-section-btn">
+					<a class="btn btn-primary display-4" href="/explorar">Explorar</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+</section>
+
+    <div class="container">
+        <div class="row">                    
+            <div class="container">
+                <h1 class="mt-5">Registrar Jogador</h1>
+                <form action="/registro" method="post" class="mt-4">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome do Jogador:</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Idade:</label>
+                        <input type="number" id="age" name="age" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="grupo" class="form-label">Grupo do Jogador:</label>
+                        <select id="grupo" name="grupo_id" class="form-select" required>
+                            {% for grupo in grupos %}
+                                <option value="{{ grupo.id }}">{{ grupo.nome_grupo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="preferencia_pe" class="form-label">Preferência de Pé:</label>
+                        <select id="preferencia_pe" name="preferencia_pe" class="form-select" required>
+                            <option value="esquerdo">Esquerdo</option>
+                            <option value="direito">Direito</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="posicao" class="form-label">Posição:</label>
+                        <select id="posicao" name="posicao" class="form-select" required>
+                            <option value="goleiro">Goleiro</option>
+                            <option value="zagueiro">Zagueiro</option>
+                            <option value="lateral">Lateral</option>
+                            <option value="meio campo">Meio Campo</option>
+                            <option value="atacante">Atacante</option>
+                            <option value="ponta">Ponta</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nota" class="form-label">Nota (0-10):</label>
+                        <input type="number" id="nota" name="nota" class="form-control" min="0" max="10" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-check-label">Status do Jogador:</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="presence_yes" name="status" value="yes">
+                            <label class="form-check-label" for="presence_yes">Sim</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="presence_no" name="status" value="no">
+                            <label class="form-check-label" for="presence_no">Não</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-check-label">Pagamento Diária:</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="payment_yes" name="payment" value="yes">
+                            <label class="form-check-label" for="payment_yes">Sim</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="payment_no" name="payment" value="no">
+                            <label class="form-check-label" for="payment_no">Não</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registro</button
+                
+       
+
+        </div>
+    </div>
+
+ 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    
+    <script src="static/assets/web/assets/jquery/jquery.min.js"></script>
+    <script src="static/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="static/assets/smoothscroll/smooth-scroll.js"></script>
+    <script src="static/assets/ytplayer/index.js"></script>
+    <script src="static/assets/dropdown/js/navbar-dropdown.js"></script>
+    <script src="static/assets/mbr-switch-arrow/mbr-switch-arrow.js"></script>
+    <script src="static/assets/masonry/masonry.pkgd.min.js"></script>
+    <script src="static/assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="static/assets/theme/js/script.js"></script>
+    <script src="static/assets/formoid/formoid.min.js"></script>
+
+</body>
+</html>
