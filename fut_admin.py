@@ -2,6 +2,8 @@ import logging
 import random
 import smtplib
 import sqlite3
+import secrets
+import string
 from datetime import datetime, timedelta, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -18,6 +20,7 @@ from flask import (
     request,
     url_for,
     send_from_directory,
+    current_app,
 )
 import os
 from flask_bcrypt import Bcrypt
@@ -55,7 +58,21 @@ app.config["SECRET_KEY"] = "uaie4q*(eo7ms*8vl_mde6x+a(&vx8nphm2o5n^=h0=p^3@u2"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///football.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# Configurações do servidor de e-mail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'seumkt@gmail.com'
+app.config['MAIL_PASSWORD'] = 'utjpnvnrziovcstz'
+app.config['MAIL_DEFAULT_SENDER'] = 'seumkt@gmail.com'
+app.config["SENDER_EMAIL"] = "seumkt@gmail.com"
 
+mail = Mail(app)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+login_manager = LoginManager(app)
+login_manager.login_view = "login"
+bcrypt = Bcrypt(app)
 # Configurando o diretório dos templates
 app.config[
     "TEMPLATES_AUTO_RELOAD"
@@ -71,30 +88,16 @@ STATIC_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static
 MEDIA_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "media")
 
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-login_manager = LoginManager(app)
-login_manager.login_view = "login"
-bcrypt = Bcrypt(app)
-
 # Desativar logs de solicitações de arquivos estáticos
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+#log = logging.getLogger('werkzeug')
+#log.setLevel(logging.ERROR)
 
-# Configurações do servidor de e-mail
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'seumkt@gmail.com'
-app.config['MAIL_PASSWORD'] = 'pmsertnxkggkqqvc'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
 
-mail = Mail(app)
 
 # Configurações do servidor de e-mail
 EMAIL_FROM = "seumkt@gmail.com"  # email de origem
 EMAIL_TO = ""  # email de destino
-SENHA = "pmsertnxkggkqqvc"
+SENHA = "utjpnvnrziovcstz"
 
 
 class Grupo(db.Model):
@@ -116,7 +119,8 @@ class users(db.Model, UserMixin):
     admin = db.Column(db.Boolean, nullable=False, default=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     confirmed_on = db.Column(db.DateTime, nullable=True)
-    password_reset_token = db.Column(db.String(100), unique=True, nullable=True)
+    password_reset_token = db.Column(db.String(100), nullable=True)
+    password_reset_token = db.Column(db.String(100), nullable=True)
     password_reset_expiration = db.Column(db.DateTime, nullable=True)
     current_password = db.Column(db.String(500), nullable=True)
     new_password = db.Column(db.String(500), nullable=True)
@@ -187,18 +191,8 @@ class LoginForm(FlaskForm):
 
 
 class PasswordResetForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
-    password = PasswordField(
-        "Nova Senha",
-        validators=[
-            validators.DataRequired(),
-            validators.EqualTo("confirm_password", message="Senhas devem ser iguais"),
-        ],
-    )
-    confirm_password = PasswordField(
-        "Confirme a Nova Senha", validators=[validators.DataRequired()]
-    )
-    submit = SubmitField("Redefinir Senha")
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Enviar Email de Redefinição')
 
 
 class PasswordEditForm(FlaskForm):
@@ -293,10 +287,35 @@ class PartidaJogador(db.Model):
 
 import random
 
+#def create_admin():
+#    """Creates the admin user."""
+ #   db.session.add(User(
+  #      email="ad@min.com",
+   #     password="admin",
+    #    admin=True,
+     #   confirmed=True,
+      #  confirmed_on=datetime.datetime.now())
+    #)
+    #db.session.commit()
 
 class User(UserMixin):
     def __init__(self, id):
         self.id = id
+
+    
+
+@app.route("/send_mail/<int:user_id>")
+def send_mail(user_id):
+    # Consultar o banco de dados para obter o e-mail do usuário
+    user = users.query.get(user_id)
+    if user:
+        recipient_email = user.email
+        msg = Message("Olá", sender="seumkt@gmail.com", recipients=[recipient_email])
+        msg.body = "Seja bem-vindo ao LigaAdmin!"
+        mail.send(msg)
+        return "Email enviado para " + recipient_email
+    else:
+        return "Usuário não encontrado"       
 
 
 @app.route("/")
@@ -317,29 +336,39 @@ def user_loader(user_id):
     return user
 
 
-def send_approval_notification(email):
-    sender_email = EMAIL_FROM
-    sender_password = SENHA
-    receiver_email = email
+def send_approval_notification(user_email, pending_users):
+    sender_email = "seumkt@gmail.com"
     subject = "Novos Registros Pendentes de aprovação"
-    body = f"Prezado usuário,\n\nSeu cadastro está pendente de aprovação. Por favor, aguarde a revisão do administrador.\n\nCom os melhores cumprimentos,\ndo Administrador"
+    aprova_url = url_for("pendente_aprovacao")
+    
+    pending_users = users.query.filter_by(is_approved=False).all()
+    
+    # Construir a lista de nomes de usuário pendentes de aprovação
+    pending_user_names = "\n".join([user.username for user in pending_users])
 
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message["To"] = receiver_email
-    message["Subject"] = subject
+    body = f"""Prezado administrador,
 
-    message.attach(MIMEText(body, "plain"))
+Existem novos registros pendentes de aprovação. Por favor, revise-os.
 
-    # Replace 'smtp-mail.outlook.com' with your Outlook SMTP server
-    server = smtplib.SMTP("smtp-mail.outlook.com", 587)
-    server.starttls()
+Usuários pendentes de aprovação:
+{pending_user_names}
 
-    # Replace 'EMAIL_PASSWORD' with the actual email password or app password
-    server.login(sender_email, sender_password)
+Por favor, visite o seguinte link para mais detalhes:
+{aprova_url}
 
-    server.sendmail(sender_email, receiver_email, message.as_string())
-    server.quit()
+Com os melhores cumprimentos,
+O Administrador"""
+
+    msg = Message(subject, sender=sender_email, recipients=[user_email])
+    msg.body = body
+
+    try:
+        print(f"Enviando email para o administrador {user_email}")
+        mail.send(msg)
+        print("Email enviado com sucesso!")
+    except Exception as e:
+        print("Erro ao enviar email:", e)
+
 
         
 # Route for user registration
@@ -347,15 +376,11 @@ def send_approval_notification(email):
 @app.route("/register", methods=["GET", "POST"])
 def register_user():
     if request.method == "POST":
-        print(
-            "Form Data:", request.form
-        )  # Adicione esta linha para verificar os dados recebidos do formulário
+        print("Form Data:", request.form)
         username = request.form["username"]
         password = request.form["password"]
         full_name = request.form["full_name"]
-        date_of_birth = datetime.strptime(
-            request.form["date_of_birth"], "%Y-%m-%d"
-        ).date()
+        date_of_birth = datetime.strptime(request.form["date_of_birth"], "%Y-%m-%d").date()
         email = request.form["email"]
         admin = request.form.get("admin") == "True"
         grupo_id = request.form["grupo"]
@@ -366,33 +391,44 @@ def register_user():
         # Set registration timestamp
         registered_on = datetime.utcnow()
         
-                # Definir a data de expiração do acesso para 30 dias a partir da data de registro
+        # Definir a data de expiração do acesso para 30 dias a partir da data de registro
         access_expiry_date = datetime.utcnow() + timedelta(days=30)
+        
+        pending_users = users.query.filter_by(is_approved=False).all()
+        print("New pending_users:", pending_users)
+        
+        sender_email = current_app.config.get("SENDER_EMAIL")
+        print("novo send_approval_notification:", sender_email)
 
         # Create a new User object and add it to the database with is_approved=False
         new_user = users(
-                username=username,
-                password=hashed_password,
-                full_name=full_name,
-                date_of_birth=date_of_birth,
-                email=email,
-                admin=admin,
-                grupo_id=grupo_id,
-                registered_on=registered_on,
-                access_expiry_date=access_expiry_date
+            username=username,
+            password=hashed_password,
+            full_name=full_name,
+            date_of_birth=date_of_birth,
+            email=email,
+            admin=admin,
+            grupo_id=grupo_id,
+            registered_on=registered_on,
+            access_expiry_date=access_expiry_date
         )
-        print(
-            "New User:", new_user
-        )  # Adicione esta linha para verificar o novo usuário antes de adicioná-lo ao banco de dados
+        print("New User:", new_user)
         db.session.add(new_user)
         db.session.commit()
 
-        # send_approval_notification(EMAIL_USERNAME)
+        # Enviar notificação de aprovação pendente apenas se o usuário for um administrador
+        send_approval_notification(sender_email, pending_users)
+        print("New send_approval_notification:", sender_email)
+        print("New pending_users:", pending_users)
+            
 
-        # Redirect to a page informing the user that their registration is pending approval
         return redirect(url_for("index"))
+        
+
     grupos = Grupo.query.all()
     return render_template("register.html", grupos=grupos)
+
+
 
 @app.route("/pagamento", methods=["GET", "POST"])
 def pagamento():
@@ -496,28 +532,33 @@ def logout():
     logout_user()  # Use the logout_user() function to log the user out
     return render_template("logout.html")
 
+#def generate_random_token():
+    # Implemente sua lógica para gerar um token aleatório
+ #   return 'random_generated_token'
 
-def send_password_reset_email(email, token):
-    sender_email = EMAIL_USERNAME
-    sender_password = SENHA
-    receiver_email = email
+def generate_random_token(token_length=12):
+    """Generate a random token."""
+    alphabet = string.ascii_letters + string.digits
+    token = ''.join(secrets.choice(alphabet) for i in range(token_length))
+    return token 
 
+
+def send_password_reset_email(user_email, token):
+    sender_email = "seumkt@gmail.com"
     subject = "Redefinição de Senha"
     reset_url = url_for("reset_password_token", token=token, _external=True)
-
     body = f"Prezado usuário,\n\nClique no link a seguir para redefinir sua senha:\n\n{reset_url}\n\nCom os melhores cumprimentos,\nO Administrador"
 
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message["To"] = receiver_email
-    message["Subject"] = subject
-    message.attach(MIMEText(body, "plain"))
+    msg = Message(subject, sender=sender_email, recipients=[user_email])
+    msg.body = body
 
-    server = smtplib.SMTP("smtp-mail.outlook.com", 587)
-    server.starttls()
-    server.login(sender_email, sender_password)
-    server.sendmail(sender_email, receiver_email, message.as_string())
-    server.quit()
+    try:
+        print(f"Enviando email para {user_email} com o token {token}")
+        mail.send(msg)
+        print("Email enviado com sucesso!")
+    except Exception as e:
+        print("Erro ao enviar email:", e)
+
 
 
 @app.route("/edit_password", methods=["GET", "POST"])
@@ -544,39 +585,7 @@ def edit_password():
 
     return render_template("edit_password.html", form=form)
 
-
-@app.route("/reset_password", methods=["GET", "POST"])
-def reset_password():
-    form = PasswordResetForm()
-
-    if form.validate_on_submit():
-        # Gere um token de redefinição de senha e armazene no banco de dados
-        token = generate_random_token()  # Implemente a geração do token
-        print("Generated Token:", token)
-
-        # Atualize o usuário com o token e data de expiração no banco de dados
-        user = users.query.filter_by(email=form.email.data).first()
-        if user:
-            print("User Found:", user.username)
-            user.password_reset_token = token
-            user.password_reset_expiration = datetime.now(timezone.utc) + timedelta(
-                hours=1
-            )  # Por exemplo, token expira em 1 hora
-            db.session.commit()
-            print("Token and Expiration Updated")
-
-            # Envie o email de redefinição de senha
-            # send_password_reset_email(user.email, token)
-
-            flash(
-                "Um link de redefinição de senha foi enviado para o seu email.", "info"
-            )
-            return redirect(url_for("login"))  # Redirecionar para a página de login
-        else:
-            print("User Not Found")
-
-    return render_template("reset_password.html", form=form)
-
+from datetime import datetime, timezone
 
 @app.route("/reset_password/<token>", methods=["GET", "POST"])
 def reset_password_token(token):
@@ -600,6 +609,49 @@ def reset_password_token(token):
 
     flash("O link de redefinição de senha é inválido ou expirou.", "danger")
     return redirect(url_for("login"))
+
+@app.route("/reset_password", methods=["GET", "POST"])
+def reset_password():
+    form = PasswordResetForm()
+    
+    if form.validate_on_submit():
+        token = generate_random_token()
+        print("Generated Token:", token)
+        
+        user = users.query.filter_by(email=form.email.data).first()
+        if user:
+            print(f"User Found: {user.username} with email {user.email}")
+            user.password_reset_token = token
+            user.password_reset_expiration = datetime.now(timezone.utc) + timedelta(hours=1)
+            db.session.commit()
+            print("Token and Expiration Updated")
+            
+            send_password_reset_email(user.email, token)
+            
+            flash("Um link de redefinição de senha foi enviado para o seu email.", "info")
+            return redirect(url_for("login"))
+        else:
+            flash("Email não encontrado.", "danger")
+            print("User Not Found")
+
+    return render_template("reset_password.html", form=form)
+
+
+@app.route("/gerencia_usuario", methods=["GET"])
+@login_required
+def gerencia_usuario():    
+    # Recupera os usuários que estão pendentes de aprovação de pagamento
+    pending_users = users.query.filter_by().all()
+    
+    # Calcula quantos dias se passaram desde o registro para cada usuário
+    for user in pending_users:
+        days_since_registration = (datetime.utcnow() - user.registered_on).days
+        user.days_since_registration = days_since_registration
+    
+    # Renderiza o template com os usuários pendentes de aprovação e informações sobre os dias desde o registro
+    return render_template("gerencia_usuario.html", pending_users=pending_users)
+
+
 
 @app.route("/pendente_aprovacao", methods=["GET"])
 @login_required
@@ -644,7 +696,6 @@ def aprova_usuarios():
 
 # Rota para cadastrar um novo grupo
 @app.route("/cadastrar_grupo", methods=["GET", "POST"])
-@login_required
 def cadastrar_grupo():
     if request.method == "POST":
         nome_grupo = request.form["nome_grupo"]
@@ -705,22 +756,16 @@ def registro():
     return render_template("registro.html", player=player, grupos=grupos)
 
 
-@app.route("/listar_jogadores")
+@app.route('/listar_jogadores')
 @login_required
 def listar_jogadores():
-    # Obter o ID da partida selecionada a partir do formulário
-    # Recuperar a lista de jogadores
-    print("Usuário autenticado:", current_user.is_authenticated)
-    print("Grupo ID do usuário:", current_user.grupo_id)
-    players = Player.query.all()
-
-    print("Jogadores do grupo:", players)
-    # Recuperar a lista de partidas
-    partidas = DiaFut.query.all()
-    print("partidas do grupo:", partidas)
-
-    # Passar a lista de jogadores para o template
-    return render_template("jogadores.html", players=players, partidas=partidas)
+    if current_user.is_authenticated:
+        grupo_id_do_usuario = current_user.grupo_id
+        jogadores_do_grupo = Player.query.filter_by(grupo_id=grupo_id_do_usuario).all()
+        return render_template('jogadores.html', jogadores=jogadores_do_grupo)
+    else:
+        # Caso o usuário não esteja autenticado, redirecione para a página de login
+        return redirect(url_for('login'))
 
 
 @app.route("/edit_player/<int:player_id>", methods=["GET", "POST"])
@@ -803,9 +848,9 @@ def calendario():
     datas_disponiveis = DiaFut.query.filter_by(dt_encerramento=None).all()
 
     # Verificar se há datas disponíveis
-    if not datas_disponiveis:
-        flash("Não há partidas disponíveis para marcação no momento.", "info")
-        return redirect(url_for("index"))  # Redirecionar para a página inicial
+    #if not datas_disponiveis:
+        #flash("Não há partidas disponíveis para marcação no momento.", "info")
+        #return redirect(url_for("index"))  # Redirecionar para a página inicial
 
     return render_template("calendario.html", datas_disponiveis=datas_disponiveis)
 
@@ -819,14 +864,6 @@ def adicionar_data_partida():
         nova_data = request.form["nova_data"]
         nova_data = datetime.strptime(nova_data, "%Y-%m-%dT%H:%M")
 
-        # Verificar se a data da partida é no futuro
-        if nova_data < datetime.now():
-            flash(
-                "Não é possível adicionar uma partida para uma data passada.", "error"
-            )
-            return redirect(
-                url_for("calendario")
-            )  # Redirecionar de volta para a página de calendário
 
         local_partida = request.form.get("local_partida")
         if local_partida is None:
