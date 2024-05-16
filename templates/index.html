@@ -730,22 +730,19 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-8 mx-auto mbr-form" data-form-type="formoid">
-                <form action="" method="POST" class="mbr-form form-with-styler" data-form-title="Form Name"><input type="hidden" name="email" data-form-email="true" value="tzSwwz1cIFsWrGrrhv36H9ZzcAovHWxVqJFWCsnX2cziURrw4aNHjmnwpYWvmoj60TwCjvcslqRjfxT24aU7BL4IKnZfzmEGlNAAv1ySZPgS1zYBGZSBl7TmGICQpQYc">
+                <form action="/enviar_email" method="POST" class="mbr-form form-with-styler">
                     <div class="row">
-                        <div hidden="hidden" data-form-alert="" class="alert alert-success col-12">Thanks for filling out the form!</div>
-                        <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12">
-                            Oops...! some problem!
-                        </div>
-                    </div>
-                    <div class="dragArea row">
                         <div class="col-md col-sm-12 form-group mb-3" data-for="name">
-                            <input type="text" name="name" placeholder="Nome" data-form-field="name" class="form-control" value="" id="name-contact-form-2-ua1kiTIOzK">
+                            <input type="text" name="nome" placeholder="Nome" data-form-field="name" class="form-control" id="name-contact-form">
                         </div>
                         <div class="col-md col-sm-12 form-group mb-3" data-for="email">
-                            <input type="email" name="email" placeholder="Email" data-form-field="email" class="form-control" value="" id="email-contact-form-2-ua1kiTIOzK">
+                            <input type="email" name="email" placeholder="E-mail" data-form-field="email" class="form-control" id="email-contact-form">
+                        </div>
+                        <div class="col-md col-sm-12 form-group mb-3" data-for="assunto">
+                            <input type="text" name="assunto" placeholder="Assunto" data-form-field="assunto" class="form-control" id="assunto-contact-form">
                         </div>
                         <div class="col-12 form-group mb-3" data-for="textarea">
-                            <textarea name="textarea" placeholder="Mensagem" data-form-field="textarea" class="form-control" id="textarea-contact-form-2-ua1kiTIOzK"></textarea>
+                            <textarea name="mensagem" placeholder="Mensagem" data-form-field="textarea" class="form-control" id="textarea-contact-form"></textarea>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 align-center mbr-section-btn">
                             <button type="submit" class="btn btn-primary display-7">Enviar Mensagem</button>

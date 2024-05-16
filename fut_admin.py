@@ -302,7 +302,21 @@ class User(UserMixin):
     def __init__(self, id):
         self.id = id
 
-    
+@app.route("/enviar_email", methods=["POST"])
+def enviar_email():
+    nome = request.form.get("nome")
+    email = request.form.get("email")
+    mensagem = request.form.get("mensagem")
+
+    msg = Message("Assunto do E-mail", sender="seumkt@gmail.com", recipients=[email])
+    msg.body = f"Olá {nome}, {mensagem}"
+
+    try:
+        mail.send(msg)
+        return "E-mail enviado com sucesso!"
+    except Exception as e:
+        return f"Erro ao enviar o e-mail: {str(e)}"
+
 
 @app.route("/send_mail/<int:user_id>")
 def send_mail(user_id):
